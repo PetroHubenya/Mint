@@ -8,6 +8,7 @@
         public string? Web_slug { get; set; }
         public string? Asset_platform_id { get; set; }
         public string? Platforms { get; set; }
+        public Links? Homepage { get; set; }
 
 
     }
