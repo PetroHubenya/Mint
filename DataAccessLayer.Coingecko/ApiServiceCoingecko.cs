@@ -1,32 +1,61 @@
 ﻿using Interfaces.DataAccessLayer;
 using Models;
+using Newtonsoft.Json;
+using System.Text.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace DataAccessLayer.Coingecko
 {
     public class ApiServiceCoingecko : IApiServiceCoingecko
-    {   
-        public async Task<List<Coin>> GetAllCoinsAsync()
+    {
+        private readonly HttpClient _httpClient;
+
+        public ApiServiceCoingecko(HttpClient httpClient)
         {
-            List<Coin> result =
-            [
-                new Coin
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        }
+        public async Task<List<Coin>> GetAllCoinsAsync()
+        {   
+            string apiUrl = "https://api.coingecko.com/api/v3/coins/list";
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    Id = "01coin",
-                    Symbol = "zoc",
-                    Name = "01coin"
-                },
-                new Coin
-                {
-                    Id = "0chain",
-                    Symbol = "zcn",
-                    Name = "Zus"
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    if (content == null)
+                    {
+                        throw new Exception("Responce content is null.");
+                    }
+                    else
+                    {
+                        List<Coin> coins = JsonConvert.DeserializeObject<List<Coin>>(content);
+
+                        // var coins = JsonSerializer.Deserialize<List<Coin>>(content);
+
+
+                        if (coins == null)
+                        {
+                            throw new Exception("The coins variable is null.");
+                        }
+                        else
+                        {
+                            return coins;
+                        }
+                    }
                 }
-            ];
-
-            // Simulate an asynchronous operation.
-            await Task.Delay(1000);
-
-            return result;
+                else
+                {
+                    throw new HttpRequestException($"Failed to retrieve coins. Status code: {response.StatusCode}, Reason: {response.ReasonPhrase}");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

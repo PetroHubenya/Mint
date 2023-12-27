@@ -15,6 +15,7 @@ builder.Services.AddSwaggerGen();
 // Add services
 builder.Services.AddScoped<ICoinService, CoinService>();
 builder.Services.AddScoped<IApiServiceCoingecko, ApiServiceCoingecko>();
+builder.Services.AddHttpClient<IApiServiceCoingecko, ApiServiceCoingecko>();
 
 var app = builder.Build();
 
