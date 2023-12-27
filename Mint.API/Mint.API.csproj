@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataAccessLayer.Coingecko\DataAccessLayer.Coingecko.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
     <ProjectReference Include="..\Mint.BLL\Mint.BLL.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
