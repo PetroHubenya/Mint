@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Interfaces.BusinessLogicLayer
+namespace Interfaces.DataAccessLayer
 {
-    public interface ICoinService
+    public interface IApiServiceCoingecko
     {
         Task<List<Coin>> GetAllCoinsAsync();
     }

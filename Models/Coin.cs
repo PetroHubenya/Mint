@@ -8,6 +8,6 @@
         public string? Web_slug { get; set; }
         public bool? Asset_platform_id { get; set; }
         public Links? Links { get; set; }
-        public required Market_data MarketData { get; set; }
+        public Market_data? MarketData { get; set; }
     }
 }
