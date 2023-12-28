@@ -6,22 +6,22 @@ namespace Mint.BLL
 {
     public class CoinService : ICoinService
     {
-        private readonly IApiService _apiServiceCoingecko;
+        private readonly IApiService _apiService;
 
-        public CoinService(IApiService apiServiceCoingecko)
+        public CoinService(IApiService apiService)
         {
-            _apiServiceCoingecko = apiServiceCoingecko;
+            _apiService = apiService;
         }
 
         // Get all coins from the third party API
         public async Task<List<Coin>> GetAllCoinsAsync()
         {
-            return await _apiServiceCoingecko.GetAllCoinsAsync();
+            return await _apiService.GetAllCoinsAsync();
         }
 
         public async Task<List<Coin>> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page)
         {
-            List<Coin> result = await _apiServiceCoingecko.GetCoinsVsCurrencyInOrderPerPageAsync(vsCurrency, order, perPage, page);
+            List<Coin> result = await _apiService.GetCoinsVsCurrencyInOrderPerPageAsync(vsCurrency, order, perPage, page);
 
             if (result == null)
             {
@@ -31,9 +31,17 @@ namespace Mint.BLL
             return result;
         }
 
-        public Task<List<Coin>> GetTopNCoinsAsync(int limit)
+        // Get top n number of coins.
+        public async Task<List<Coin>> GetTopNCoinsAsync(int limit)
         {
-            throw new NotImplementedException();
+            List<Coin> result = await _apiService.GetTopNCoinsAsync(limit);
+
+            if (result == null)
+            {
+                throw new Exception();
+            }
+
+            return result;
         }
     }
 }

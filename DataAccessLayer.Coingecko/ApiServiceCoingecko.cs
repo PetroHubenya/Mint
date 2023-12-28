@@ -103,6 +103,11 @@ namespace DataAccessLayer.Coingecko
             }
         }
 
+        public Task<List<Coin>> GetTopNCoinsAsync(int limit)
+        {
+            throw new NotImplementedException();
+        }
+
         //
 
 
