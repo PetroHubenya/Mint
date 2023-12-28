@@ -1,5 +1,7 @@
-﻿using Interfaces.DataAccessLayer;
+﻿using Helpers;
+using Interfaces.DataAccessLayer;
 using Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,16 +49,26 @@ namespace DataAccessLayer
                     }
                     else
                     {
-                        List<Coincap>? coincaps = JsonSerializer.Deserialize<List<Coincap>>(jsonString);
+                        var apiResponse = JsonConvert.DeserializeObject<CoincapApiResponse>(jsonString);
 
-                        if (coincaps == null)
+                        if (apiResponse?.Data == null)
                         {
-                            throw new Exception("Failed to deserialize JSON string.");
+                            throw new Exception("Failed to deserialize JSON string or missing 'data' property.");
                         }
                         else
                         {
+                            CoincapToCoinMapper coinMapper = new CoincapToCoinMapper();
 
-                            return coins;
+                            List<Coin> coins = coinMapper.MapCoincapListToCoinList(apiResponse.Data);
+
+                            if (coins == null)
+                            {
+                                throw new Exception("Failed to Map Coincap to Coin.");
+                            }
+                            else
+                            {
+                                return coins;
+                            }
                         }
                     }
                 }
