@@ -14,6 +14,8 @@ namespace DataAccessLayer.Coingecko
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
+
+
         public async Task<List<Coin>> GetAllCoinsAsync()
         {   
             string apiUrl = "https://api.coingecko.com/api/v3/coins/list";
@@ -57,5 +59,14 @@ namespace DataAccessLayer.Coingecko
                 throw;
             }
         }
+
+        // https://api.coingecko.com/api/v3/coins/markets?vs_currency=Usd&order=market_cap_desc&per_page=10&page=1&sparkline=false&locale=en
+
+
+
+
+
+
+
     }
 }

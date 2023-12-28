@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Mint.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CoinController : ControllerBase
     {
@@ -30,19 +30,19 @@ namespace Mint.API.Controllers
 
             return Ok(coins);
         }
-        
-        //// Get coin by id.
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetCoinByIdAsync(int id)
-        //{
-        //    Coin coin = await _coinService.GetCoinByIdAsync(id);
 
-        //    if (coin == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // Get https://api.coingecko.com/api/v3/coins/markets?vs_currency=Usd&order=market_cap_desc&per_page=10&page=1
+        [HttpGet("vs_currency={vsCurrency}/order={order}/per_page={perPage}/page={page}")]
+        public async Task<IActionResult> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page)
+        {
+            List<Coin> coins = await _coinService.GetCoinsVsCurrencyInOrderPerPageAsync(vsCurrency, order, perPage, page);
 
-        //    return Ok(coin);
-        //}
+            if (coins.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(coins);
+        }
     }
 }
