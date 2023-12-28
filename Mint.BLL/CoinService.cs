@@ -19,9 +19,16 @@ namespace Mint.BLL
             return await _apiServiceCoingecko.GetAllCoinsAsync();
         }
 
-        public Task<List<Coin>> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page)
+        public async Task<List<Coin>> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page)
         {
-            throw new NotImplementedException();
+            List<Coin> result = await _apiServiceCoingecko.GetCoinsVsCurrencyInOrderPerPageAsync(vsCurrency, order, perPage, page);
+
+            if (result == null)
+            {
+                throw new Exception();
+            }
+
+            return result;
         }
     }
 }
