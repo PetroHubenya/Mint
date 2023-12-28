@@ -1,6 +1,7 @@
 ﻿using Interfaces.BusinessLogicLayer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models;
 using System.Collections.Generic;
 
@@ -36,6 +37,20 @@ namespace Mint.API.Controllers
         public async Task<IActionResult> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page)
         {
             List<Coin> coins = await _coinService.GetCoinsVsCurrencyInOrderPerPageAsync(vsCurrency, order, perPage, page);
+
+            if (coins.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(coins);
+        }
+
+        // Get top n number of coins. Coingecko "per_page" = Coincap "limit"
+        [HttpGet("limit={limit}")]
+        public async Task<IActionResult> GetTopNCoinsAsync(int limit)
+        {
+            List<Coin> coins = await _coinService.GetTopNCoinsAsync(limit);
 
             if (coins.Count == 0)
             {

@@ -30,5 +30,10 @@ namespace Mint.BLL
 
             return result;
         }
+
+        public Task<List<Coin>> GetTopNCoinsAsync(int limit)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

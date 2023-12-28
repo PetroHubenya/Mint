@@ -11,5 +11,6 @@ namespace Interfaces.BusinessLogicLayer
     {
         Task<List<Coin>> GetAllCoinsAsync();
         Task<List<Coin>> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page);
+        Task<List<Coin>> GetTopNCoinsAsync(int limit);
     }
 }
