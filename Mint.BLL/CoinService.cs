@@ -6,9 +6,9 @@ namespace Mint.BLL
 {
     public class CoinService : ICoinService
     {
-        private readonly IApiServiceCoingecko _apiServiceCoingecko;
+        private readonly IApiService _apiServiceCoingecko;
 
-        public CoinService(IApiServiceCoingecko apiServiceCoingecko)
+        public CoinService(IApiService apiServiceCoingecko)
         {
             _apiServiceCoingecko = apiServiceCoingecko;
         }

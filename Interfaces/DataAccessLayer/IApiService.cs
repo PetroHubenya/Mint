@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Interfaces.DataAccessLayer
 {
-    public interface IApiServiceCoingecko
+    public interface IApiService
     {
         Task<List<Coin>> GetAllCoinsAsync();
         Task<List<Coin>> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page);

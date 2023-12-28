@@ -1,12 +1,11 @@
 ﻿using Interfaces.DataAccessLayer;
 using Models;
-using Newtonsoft.Json;
 using System.Text.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace DataAccessLayer.Coingecko
 {
-    public class ApiServiceCoingecko : IApiServiceCoingecko
+    public class ApiServiceCoingecko : IApiService
     {
         private readonly HttpClient _httpClient;
 
@@ -34,9 +33,9 @@ namespace DataAccessLayer.Coingecko
                     }
                     else
                     {
-                        List<Coin> coins = JsonConvert.DeserializeObject<List<Coin>>(content);
+                        // List<Coin> coins = JsonConvert.DeserializeObject<List<Coin>>(content);
 
-                        // var coins = JsonSerializer.Deserialize<List<Coin>>(content);
+                        var coins = JsonSerializer.Deserialize<List<Coin>>(content);
 
 
                         if (coins == null)
@@ -60,19 +59,51 @@ namespace DataAccessLayer.Coingecko
             }
         }
 
-        public Task<List<Coin>> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page)
+        // Get list of coins vs specific currency in required order using pagination from the API
+        // https://api.coingecko.com/api/v3/coins/markets?vs_currency=Usd&order=market_cap_desc&per_page=10&page=1
+
+        public async Task<List<Coin>> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page)
         {
-            
-            
-            throw new NotImplementedException();
+            string apiUrl = $"https://api.coingecko.com/api/v3/coins/markets?vs_currency={vsCurrency}&order={order}&per_page={perPage}&page={page}&sparkline=false&locale=en";
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonString = await response.Content.ReadAsStringAsync();
+
+                    if (string.IsNullOrEmpty(jsonString))
+                    {
+                        throw new Exception("Empty or null JSON string.");
+                    }
+                    else
+                    {
+                        List<Coin>? coins = JsonSerializer.Deserialize<List<Coin>>(jsonString);
+
+                        if (coins == null)
+                        {
+                            throw new Exception("Failed to deserialize JSON string.");
+                        }
+                        else
+                        {
+                            return coins;
+                        }
+                    }
+                }
+                else
+                {
+                    throw new HttpRequestException($"Failed to retrieve coins. Status code: {response.StatusCode}, Reason: {response.ReasonPhrase}");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        // https://api.coingecko.com/api/v3/coins/markets?vs_currency=Usd&order=market_cap_desc&per_page=10&page=1&sparkline=false&locale=en
-
-
-
-
-
+        //
 
 
     }
