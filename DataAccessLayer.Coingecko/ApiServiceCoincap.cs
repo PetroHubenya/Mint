@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Coingecko
+namespace DataAccessLayer
 {
     public class ApiServiceCoincap : IApiService
     {
@@ -47,14 +47,15 @@ namespace DataAccessLayer.Coingecko
                     }
                     else
                     {
-                        List<Coin>? coins = JsonSerializer.Deserialize<List<Coin>>(jsonString);
+                        List<Coincap>? coincaps = JsonSerializer.Deserialize<List<Coincap>>(jsonString);
 
-                        if (coins == null)
+                        if (coincaps == null)
                         {
                             throw new Exception("Failed to deserialize JSON string.");
                         }
                         else
                         {
+
                             return coins;
                         }
                     }

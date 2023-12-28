@@ -3,7 +3,7 @@ using Models;
 using System.Text.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace DataAccessLayer.Coingecko
+namespace DataAccessLayer
 {
     public class ApiServiceCoingecko : IApiService
     {

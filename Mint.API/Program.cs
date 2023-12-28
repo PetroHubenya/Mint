@@ -1,7 +1,9 @@
-using DataAccessLayer.Coingecko;
+using DataAccessLayer;
+using Helpers;
 using Interfaces.BusinessLogicLayer;
 using Interfaces.DataAccessLayer;
 using Mint.BLL;
+using Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,8 @@ builder.Services.AddScoped<ICoinService, CoinService>();
 builder.Services.AddScoped<IApiService, ApiServiceCoingecko>();
 // builder.Services.AddHttpClient<IApiService, ApiServiceCoingecko>();
 builder.Services.AddHttpClient<IApiService, ApiServiceCoincap>();
+builder.Services.AddSingleton<CoincapToCoinMapper>();
+
 
 var app = builder.Build();
 

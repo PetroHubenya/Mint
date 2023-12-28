@@ -13,17 +13,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonLayer", "CommonLayer"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{232902D5-82DC-455A-A81A-B291A633FA0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mint.API", "Mint.API\Mint.API.csproj", "{25513651-6C4B-4B29-B76A-C0B58045FE84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mint.API", "Mint.API\Mint.API.csproj", "{25513651-6C4B-4B29-B76A-C0B58045FE84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mint.BLL", "Mint.BLL\Mint.BLL.csproj", "{179AE601-9B8A-425B-AF74-D1A4B36EA977}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mint.BLL", "Mint.BLL\Mint.BLL.csproj", "{179AE601-9B8A-425B-AF74-D1A4B36EA977}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{3BCEE00B-3B7A-4977-8928-6739494CD07D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{3BCEE00B-3B7A-4977-8928-6739494CD07D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "Interfaces\Interfaces.csproj", "{6ECFD296-0BCB-432B-98CC-DBE338801189}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Interfaces\Interfaces.csproj", "{6ECFD296-0BCB-432B-98CC-DBE338801189}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Helpers\Helpers.csproj", "{1379A11B-04FB-456D-9554-BA1EB9E69B05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Helpers", "Helpers\Helpers.csproj", "{1379A11B-04FB-456D-9554-BA1EB9E69B05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer.Coingecko", "DataAccessLayer.Coingecko\DataAccessLayer.Coingecko.csproj", "{5EF3306A-D873-4931-A1C0-6774128F6EBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer.Coingecko\DataAccessLayer.csproj", "{5EF3306A-D873-4931-A1C0-6774128F6EBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
