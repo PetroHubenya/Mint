@@ -14,16 +14,13 @@ namespace DataAccessLayer
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public Task<List<Coin>> GetAllCoinsAsync()
+        // Get coin by id.
+        public Task<Coin> GetCoinByIdAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Coin>> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page)
-        {
-            throw new NotImplementedException();
-        }
-
+        // Get top n coins.
         public async Task<List<Coin>> GetTopNCoinsAsync(int limit)
         {
             string apiUrl = $"https://api.coincap.io/v2/assets?limit={limit}";

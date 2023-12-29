@@ -7,6 +7,11 @@ namespace DataAccessLayer
 {
     public class ApiServiceCoingecko : IApiService
     {
+        public Task<Coin> GetCoinByIdAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<List<Coin>> GetTopNCoinsAsync(int limit)
         {
             throw new NotImplementedException();
