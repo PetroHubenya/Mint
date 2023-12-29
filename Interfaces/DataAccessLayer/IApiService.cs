@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 namespace Interfaces.DataAccessLayer
 {
     public interface IApiService
-    {
-        Task<List<Coin>> GetAllCoinsAsync();
-        Task<List<Coin>> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page);
+    {   
         Task<List<Coin>> GetTopNCoinsAsync(int limit);
     }
 }

@@ -18,35 +18,7 @@ namespace Mint.API.Controllers
             _coinService = coinService;            
         }
 
-        // Get all coins from the third party API
-        [HttpGet]
-        public async Task<IActionResult> GetAllCoinsAsync()
-        {
-            List<Coin> coins = await _coinService.GetAllCoinsAsync();
-
-            if (coins.Count == 0)
-            {
-                return NotFound();
-            }
-
-            return Ok(coins);
-        }
-
-        // Get https://api.coingecko.com/api/v3/coins/markets?vs_currency=Usd&order=market_cap_desc&per_page=10&page=1
-        [HttpGet("vs_currency={vsCurrency}/order={order}/per_page={perPage}/page={page}")]
-        public async Task<IActionResult> GetCoinsVsCurrencyInOrderPerPageAsync(string vsCurrency, string order, int perPage, int page)
-        {
-            List<Coin> coins = await _coinService.GetCoinsVsCurrencyInOrderPerPageAsync(vsCurrency, order, perPage, page);
-
-            if (coins.Count == 0)
-            {
-                return NotFound();
-            }
-
-            return Ok(coins);
-        }
-
-        // Get top n number of coins. Coingecko "per_page" = Coincap "limit"
+        // Get top n coins.
         [HttpGet("limit={limit}")]
         public async Task<IActionResult> GetTopNCoinsAsync(int limit)
         {
