@@ -33,7 +33,7 @@ namespace DataAccessLayer
                     }
                     else
                     {
-                        Coincap coincap = JsonConvert.DeserializeObject<Coincap>(jsonString);
+                        CoincapData coincap = JsonConvert.DeserializeObject<CoincapData>(jsonString);
 
                         if (coincap == null)
                         {
@@ -41,7 +41,7 @@ namespace DataAccessLayer
                         }
                         else
                         {
-                            CoincapToCoinMapper coinMapper = new CoincapToCoinMapper();
+                            CoincapDataToCoinMapper coinMapper = new CoincapDataToCoinMapper();
 
                             Coin coin = coinMapper.MapCoincapToCoin(coincap);
 
@@ -86,7 +86,7 @@ namespace DataAccessLayer
                     }
                     else
                     {
-                        var apiResponse = JsonConvert.DeserializeObject<CoincapApiResponse>(jsonString);
+                        var apiResponse = JsonConvert.DeserializeObject<CoincapListApiResponse>(jsonString);
 
                         if (apiResponse?.Data == null)
                         {
@@ -94,7 +94,7 @@ namespace DataAccessLayer
                         }
                         else
                         {
-                            CoincapToCoinMapper coinMapper = new CoincapToCoinMapper();
+                            CoincapDataToCoinMapper coinMapper = new CoincapDataToCoinMapper();
 
                             List<Coin> coins = coinMapper.MapCoincapListToCoinList(apiResponse.Data);
 

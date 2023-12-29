@@ -19,7 +19,7 @@ builder.Services.AddScoped<ICoinService, CoinService>();
 builder.Services.AddScoped<IApiService, ApiServiceCoingecko>();
 // builder.Services.AddHttpClient<IApiService, ApiServiceCoingecko>();
 builder.Services.AddHttpClient<IApiService, ApiServiceCoincap>();
-builder.Services.AddSingleton<CoincapToCoinMapper>();
+builder.Services.AddSingleton<CoincapDataToCoinMapper>();
 
 
 var app = builder.Build();

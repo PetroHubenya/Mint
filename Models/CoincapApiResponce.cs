@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class Market_data
+    public class CoinApiResponse
     {
-        public required Current_price CurrentPrices { get; set; }
+        public CoincapData? Data { get; set; }
+        public long Timestamp { get; set; }
     }
 }
