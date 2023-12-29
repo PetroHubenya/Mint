@@ -31,5 +31,19 @@ namespace Mint.API.Controllers
 
             return Ok(coins);
         }
+
+        // Get coin by id.
+        [HttpGet("id={id}")]
+        public async Task<IActionResult> GetCoinByIdAsync(string id)
+        {
+            Coin coin = await _coinService.GetCoinByIdAsync(id);
+
+            if (coin == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(coin);
+        }
     }
 }

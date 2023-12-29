@@ -13,6 +13,12 @@ namespace Mint.BLL
             _apiService = apiService;
         }
 
+        // Get coin by id.
+        public Task<Coin> GetCoinByIdAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         // Get top n number of coins.
         public async Task<List<Coin>> GetTopNCoinsAsync(int limit)
         {

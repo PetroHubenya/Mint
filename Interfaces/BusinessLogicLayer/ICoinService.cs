@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace Interfaces.BusinessLogicLayer
 {
     public interface ICoinService
-    {   
+    {
+        Task<Coin> GetCoinByIdAsync(string id);
         Task<List<Coin>> GetTopNCoinsAsync(int limit);
     }
 }
