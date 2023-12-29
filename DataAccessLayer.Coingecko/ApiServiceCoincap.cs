@@ -15,9 +15,56 @@ namespace DataAccessLayer
         }
 
         // Get coin by id.
-        public Task<Coin> GetCoinByIdAsync(string id)
+        public async Task<Coin> GetCoinByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            string apiUrl = $"https://api.coincap.io/v2/assets/{id}";
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonString = await response.Content.ReadAsStringAsync();
+
+                    if (string.IsNullOrEmpty(jsonString))
+                    {
+                        throw new Exception("Empty or null JSON string.");
+                    }
+                    else
+                    {
+                        Coincap coincap = JsonConvert.DeserializeObject<Coincap>(jsonString);
+
+                        if (coincap == null)
+                        {
+                            throw new Exception("Failed to deserialize JSON string to coincap.");
+                        }
+                        else
+                        {
+                            CoincapToCoinMapper coinMapper = new CoincapToCoinMapper();
+
+                            Coin coin = coinMapper.MapCoincapToCoin(coincap);
+
+                            if (coin == null)
+                            {
+                                throw new Exception("Failed to Map Coincap to Coin.");
+                            }
+                            else
+                            {   
+                                return coin;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    throw new HttpRequestException($"Failed to retrieve coins. Status code: {response.StatusCode}, Reason: {response.ReasonPhrase}");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         // Get top n coins.
