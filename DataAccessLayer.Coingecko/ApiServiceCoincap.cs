@@ -33,25 +33,34 @@ namespace DataAccessLayer
                     }
                     else
                     {
-                        CoincapData coincap = JsonConvert.DeserializeObject<CoincapData>(jsonString);
+                        CoincapApiResponse? coincapApiResponse = JsonConvert.DeserializeObject<CoincapApiResponse>(jsonString);
 
-                        if (coincap == null)
+                        if (coincapApiResponse == null)
                         {
-                            throw new Exception("Failed to deserialize JSON string to coincap.");
+                            throw new Exception("Failed to deserialize JSON string to CoincapApiResponse.");
                         }
                         else
                         {
-                            CoincapDataToCoinMapper coinMapper = new CoincapDataToCoinMapper();
+                            CoincapData? coincapData = coincapApiResponse.Data;
 
-                            Coin coin = coinMapper.MapCoincapToCoin(coincap);
-
-                            if (coin == null)
+                            if (coincapData == null)
                             {
-                                throw new Exception("Failed to Map Coincap to Coin.");
+                                throw new Exception("CoincapApiResponse.Data is null.");
                             }
                             else
-                            {   
-                                return coin;
+                            {
+                                CoincapDataToCoinMapper coinMapper = new CoincapDataToCoinMapper();
+
+                                Coin coin = coinMapper.MapCoincapToCoin(coincapData);
+
+                                if (coin == null)
+                                {
+                                    throw new Exception("Failed to Map CoincapData to Coin.");
+                                }
+                                else
+                                {
+                                    return coin;
+                                }
                             }
                         }
                     }
@@ -86,9 +95,9 @@ namespace DataAccessLayer
                     }
                     else
                     {
-                        var apiResponse = JsonConvert.DeserializeObject<CoincapListApiResponse>(jsonString);
+                        CoincapListApiResponse? coincapListApiResponse = JsonConvert.DeserializeObject<CoincapListApiResponse>(jsonString);
 
-                        if (apiResponse?.Data == null)
+                        if (coincapListApiResponse?.Data == null)
                         {
                             throw new Exception("Failed to deserialize JSON string or missing 'data' property.");
                         }
@@ -96,11 +105,11 @@ namespace DataAccessLayer
                         {
                             CoincapDataToCoinMapper coinMapper = new CoincapDataToCoinMapper();
 
-                            List<Coin> coins = coinMapper.MapCoincapListToCoinList(apiResponse.Data);
+                            List<Coin> coins = coinMapper.MapCoincapListToCoinList(coincapListApiResponse.Data);
 
                             if (coins == null)
                             {
-                                throw new Exception("Failed to Map Coincap to Coin.");
+                                throw new Exception("Failed to Map CoincapListApiResponse.Data to List<Coin>.");
                             }
                             else
                             {

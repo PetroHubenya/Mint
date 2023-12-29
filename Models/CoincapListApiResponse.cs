@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class CoinApiResponse
+    public class CoincapListApiResponse
     {
         public List<CoincapData>? Data { get; set; }
         public long Timestamp { get; set; }
