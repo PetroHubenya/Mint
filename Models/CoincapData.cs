@@ -9,7 +9,7 @@ namespace Models
     public class CoincapData
     {
         public required string Id { get; set; }
-        public string? Rank { get; set; }
+        public int? Rank { get; set; }
         public string? Symbol { get; set; }
         public string? Name { get; set; }
         public double? Supply { get; set; }
