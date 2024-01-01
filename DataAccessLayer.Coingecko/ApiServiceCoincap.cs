@@ -17,6 +17,8 @@ namespace DataAccessLayer
         // Get coin by id.
         public async Task<Coin> GetCoinByIdAsync(string id)
         {
+            // Main URL part should be moved to the settings file.
+
             string apiUrl = $"https://api.coincap.io/v2/assets/{id}";
 
             try
@@ -49,6 +51,8 @@ namespace DataAccessLayer
                             }
                             else
                             {
+                                // Mapper should be moved to the Business Logic Layer.
+
                                 CoincapDataToCoinMapper coinMapper = new CoincapDataToCoinMapper();
 
                                 Coin coin = coinMapper.MapCoincapToCoin(coincapData);
@@ -79,6 +83,8 @@ namespace DataAccessLayer
         // Get top n coins.
         public async Task<List<Coin>> GetTopNCoinsAsync(int limit)
         {
+            // Main URL part should be moved to the settings file.
+
             string apiUrl = $"https://api.coincap.io/v2/assets?limit={limit}";
 
             try
@@ -103,6 +109,8 @@ namespace DataAccessLayer
                         }
                         else
                         {
+                            // Mapper should be moved to the Business Logic Layer.
+
                             CoincapDataToCoinMapper coinMapper = new CoincapDataToCoinMapper();
 
                             List<Coin> coins = coinMapper.MapCoincapListToCoinList(coincapListApiResponse.Data);
