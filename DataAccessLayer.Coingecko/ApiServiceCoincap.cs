@@ -97,18 +97,19 @@ namespace DataAccessLayer
         //----------------------------------------------------------------
 
         // Search coin by name or symbol.
-        //public async Tack<Coin> SearchCoinByNameOrSymbol(string searchString)
-        //{
-        // Convert searchString to lower case.
-        // Instantiate result list of coins.
-        // Get list of all coins.
-        // Loop through the list of coins
-        // Convert name to lower case.
-        // Compare searchString with name. If it contains searchString, then add the coin to the result list.
-        // Convert symbol to lower case.
-        // Compare searchString with symbol. If it contains searchString, then add the coin to the result list.
-        // Return list of coins.
-        //}
+        public async Task<List<Coin>> SearchCoinByNameOrSymbol(string searchString)
+        {   
+            string apiUrl = $"https://api.coincap.io/v2/assets";
+
+            List<Coin> coins = await GetListOfAllCoinsAsync(apiUrl);
+            
+            var result = from coin in coins
+                         where coin.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
+                               coin.Symbol.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
+                         select coin;
+            
+            return result.ToList();
+        }
 
         //----------------------------------------------------------------
 
@@ -118,12 +119,7 @@ namespace DataAccessLayer
             // Instantiate string, that will contain API url, that returns the list of all coins. Later, this API url will be moved to the settings file.
             // string apiUrl = $"https://api.coincap.io/v2/assets";            
             try
-            {
-                // Using HTTP client receive HTTP responce message.
-                // If HTTP responce message is not null, then store the responce in as a json string.
-                // Deserialise the json string to the list of coins in Coincap format.
-                // Map from Coincap to coin. Later, the mapping will be moved to the BLL.
-                // Return list of coins.
+            {   
                 HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
 
                 if (response.IsSuccessStatusCode)
