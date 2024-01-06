@@ -44,7 +44,7 @@ namespace Mint.BLL
         {
             List<Coin> coins = await _apiService.SearchCoinsByNameOrSymbolAsync(searchString);
 
-            if(coins == null)
+            if (coins == null)
             {
                 throw new Exception();
             }
