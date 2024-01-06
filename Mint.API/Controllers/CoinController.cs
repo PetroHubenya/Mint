@@ -22,42 +22,75 @@ namespace Mint.API.Controllers
         [HttpGet("limit={limit}")]
         public async Task<IActionResult> GetTopNCoinsAsync(int limit)
         {
-            List<Coin> coins = await _coinService.GetTopNCoinsAsync(limit);
-
-            if (coins.Count == 0)
+            try
             {
-                return NotFound();
-            }
+                List<Coin> coins = await _coinService.GetTopNCoinsAsync(limit);
 
-            return Ok(coins);
+                if (coins.Count == 0)
+                {
+                    return NoContent();
+                }
+
+                return Ok(coins);
+            }
+            catch (ArgumentException)
+            {   
+                return BadRequest("Invalid limit value.");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         // Get coin by id.
         [HttpGet("id={id}")]
         public async Task<IActionResult> GetCoinByIdAsync(string id)
         {
-            Coin coin = await _coinService.GetCoinByIdAsync(id);
-
-            if (coin == null)
+            try
             {
-                return BadRequest();
-            }
+                Coin coin = await _coinService.GetCoinByIdAsync(id);
 
-            return Ok(coin);
+                if (coin == null)
+                {
+                    return NotFound($"Coin with Id '{id}' not found.");
+                }
+
+                return Ok(coin);
+            }
+            catch (ArgumentException)
+            {   
+                return BadRequest("Invalid coin Id.");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }            
         }
 
         // Search coins by name or symbol
         [HttpGet("search={searchString}")]
         public async Task<IActionResult> SearchCoinByNameOrSymbolAsync(string searchString)
         {
-            List<Coin> coins = await _coinService.SearchCoinByNameOrSymbolAsync(searchString);
-
-            if (coins.Count == 0)
+            try
             {
-                return NotFound();
-            }
+                List<Coin> coins = await _coinService.SearchCoinByNameOrSymbolAsync(searchString);
 
-            return Ok(coins);
+                if (coins.Count == 0)
+                {
+                    return NoContent();
+                }
+
+                return Ok(coins);
+            }
+            catch (ArgumentException)
+            {   
+                return BadRequest("Invalid search string.");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }            
         }
     }
 }
