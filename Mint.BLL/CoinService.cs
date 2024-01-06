@@ -38,5 +38,18 @@ namespace Mint.BLL
 
             return coins;
         }
+
+        // Search coins by name or symbol
+        public async Task<List<Coin>> SearchCoinByNameOrSymbolAsync(string searchString)
+        {
+            List<Coin> coins = await _apiService.SearchCoinsByNameOrSymbolAsync(searchString);
+
+            if(coins == null)
+            {
+                throw new Exception();
+            }
+
+            return coins;
+        }
     }
 }

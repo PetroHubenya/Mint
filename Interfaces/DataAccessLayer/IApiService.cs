@@ -10,6 +10,8 @@ namespace Interfaces.DataAccessLayer
     public interface IApiService
     {
         Task<Coin> GetCoinByIdAsync(string id);
+        Task<List<Coin>> GetListOfAllCoinsAsync(string apiUrl);
         Task<List<Coin>> GetTopNCoinsAsync(int limit);
+        Task<List<Coin>> SearchCoinsByNameOrSymbolAsync(string searchString);
     }
 }

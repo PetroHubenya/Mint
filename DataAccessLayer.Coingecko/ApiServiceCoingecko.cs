@@ -12,7 +12,17 @@ namespace DataAccessLayer
             throw new NotImplementedException();
         }
 
+        public Task<List<Coin>> GetListOfAllCoinsAsync(string apiUrl)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<List<Coin>> GetTopNCoinsAsync(int limit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Coin>> SearchCoinsByNameOrSymbolAsync(string searchString)
         {
             throw new NotImplementedException();
         }

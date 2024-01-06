@@ -92,22 +92,22 @@ namespace DataAccessLayer
             List<Coin> coins = await GetListOfAllCoinsAsync(apiUrl);
 
             return coins;
-        }        
+        }
 
         //----------------------------------------------------------------
 
-        // Search coin by name or symbol.
-        public async Task<List<Coin>> SearchCoinByNameOrSymbol(string searchString)
-        {   
+        // Search coins by name or symbol.
+        public async Task<List<Coin>> SearchCoinsByNameOrSymbolAsync(string searchString)
+        {
             string apiUrl = $"https://api.coincap.io/v2/assets";
 
             List<Coin> coins = await GetListOfAllCoinsAsync(apiUrl);
-            
-            var result = from coin in coins
-                         where coin.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
-                               coin.Symbol.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
-                         select coin;
-            
+
+            IEnumerable<Coin> result = from coin in coins
+                                       where coin.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
+                                             coin.Symbol.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
+                                       select coin;
+
             return result.ToList();
         }
 
@@ -119,7 +119,7 @@ namespace DataAccessLayer
             // Instantiate string, that will contain API url, that returns the list of all coins. Later, this API url will be moved to the settings file.
             // string apiUrl = $"https://api.coincap.io/v2/assets";            
             try
-            {   
+            {
                 HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
 
                 if (response.IsSuccessStatusCode)
@@ -165,7 +165,7 @@ namespace DataAccessLayer
             catch (Exception)
             {
                 throw;
-            }            
+            }
         }
     }
 }
