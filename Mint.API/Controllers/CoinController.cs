@@ -45,5 +45,19 @@ namespace Mint.API.Controllers
 
             return Ok(coin);
         }
+
+        // Search coins by name or symbol
+        [HttpGet("search={searchString}")]
+        public async Task<IActionResult> SearchCoinByNameOrSymbolAsync(string searchString)
+        {
+            List<Coin> coins = await _coinService.SearchCoinByNameOrSymbolAsync(searchString);
+
+            if (coins.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(coins);
+        }
     }
 }
