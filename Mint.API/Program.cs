@@ -16,9 +16,8 @@ builder.Services.AddSwaggerGen();
 
 // Add services
 builder.Services.AddScoped<ICoinService, CoinService>();
-builder.Services.AddScoped<IApiService, ApiServiceCoingecko>();
-// builder.Services.AddHttpClient<IApiService, ApiServiceCoingecko>();
-builder.Services.AddHttpClient<IApiService, ApiServiceCoincap>();
+builder.Services.AddScoped<IApiService, ApiServiceCoincap>();
+// builder.Services.AddScoped<IApiService, ApiServiceCoingecko>();
 builder.Services.AddSingleton<CoincapDataToCoinMapper>();
 
 

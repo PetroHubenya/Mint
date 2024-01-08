@@ -4,28 +4,25 @@ using Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 
 namespace DataAccessLayer
 {
     public class ApiServiceCoincap : IApiService
     {
-        private readonly HttpClient _httpClient;
-
-        public ApiServiceCoincap(HttpClient httpClient)
-        {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-        }
-
         // Get coin by id.
         public async Task<Coin> GetCoinByIdAsync(string id)
         {
-            // Main URL part should be moved to the settings file.
-
             string apiUrl = $"https://api.coincap.io/v2/assets/{id}";
 
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+                HttpResponseMessage response;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    response = await client.GetAsync(apiUrl);
+                }
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -45,7 +42,7 @@ namespace DataAccessLayer
                 }
 
                 CoincapApiResponse? coincapApiResponse = JsonConvert.DeserializeObject<CoincapApiResponse>(jsonString);
-                
+
                 if (coincapApiResponse == null)
                 {
                     throw new Exception("Error deserializing JSON while fetching a coin by ID.");
@@ -174,7 +171,12 @@ namespace DataAccessLayer
                     throw new ArgumentException("API URL cannot be null or empty.");
                 }
 
-                HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+                HttpResponseMessage response;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    response = await client.GetAsync(apiUrl);
+                }
 
                 if (!response.IsSuccessStatusCode)
                 {
