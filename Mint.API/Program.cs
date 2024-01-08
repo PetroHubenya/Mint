@@ -16,7 +16,14 @@ builder.Services.AddSwaggerGen();
 
 // Add services
 builder.Services.AddScoped<ICoinService, CoinService>();
-builder.Services.AddScoped<IApiService, ApiServiceCoincap>();
+
+// string logFilePath = builder.Configuration.GetValue<string>("LogFileSetting:LogFilePath");
+
+string? apiUrl = builder.Configuration.GetValue<string>("ApiUrlSetting:ApiUrlCoincap");
+
+builder.Services.AddScoped<IApiService>(provider => new ApiServiceCoincap(apiUrl));
+
+// builder.Services.AddScoped<IApiService, ApiServiceCoincap>();
 // builder.Services.AddScoped<IApiService, ApiServiceCoingecko>();
 builder.Services.AddSingleton<CoincapDataToCoinMapper>();
 

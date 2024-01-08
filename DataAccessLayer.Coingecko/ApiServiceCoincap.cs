@@ -10,13 +10,20 @@ namespace DataAccessLayer
 {
     public class ApiServiceCoincap : IApiService
     {
-        // Get coin by id.
+        private string? _apiUrl;
+
+        public ApiServiceCoincap(string? apiUrl)
+        {
+            _apiUrl = apiUrl;
+        }
+
+        // Get coin by id: https://api.coincap.io/v2/assets/{id}
         public async Task<Coin> GetCoinByIdAsync(string id)
         {
-            string apiUrl = $"https://api.coincap.io/v2/assets/{id}";
-
             try
             {
+                string apiUrl = _apiUrl + "/" + id;
+
                 HttpResponseMessage response;
 
                 using (HttpClient client = new HttpClient())
@@ -82,7 +89,7 @@ namespace DataAccessLayer
 
         //----------------------------------------------------------------
 
-        // Get top n coins.
+        // Get top n coins: https://api.coincap.io/v2/assets?limit={limit}
         public async Task<List<Coin>> GetTopNCoinsAsync(int limit)
         {
             try
@@ -92,7 +99,7 @@ namespace DataAccessLayer
                     throw new ArgumentException("Limit must be a positive integer.");
                 }
 
-                string apiUrl = $"https://api.coincap.io/v2/assets?limit={limit}";
+                string apiUrl = _apiUrl + "?limit=" + limit;
 
                 List<Coin> coins = await GetListOfAllCoinsAsync(apiUrl);
 
@@ -119,7 +126,7 @@ namespace DataAccessLayer
 
         //----------------------------------------------------------------
 
-        // Search coins by name or symbol.
+        // Search coins by name or symbol: https://api.coincap.io/v2/assets
         public async Task<List<Coin>> SearchCoinsByNameOrSymbolAsync(string searchString)
         {
             try
@@ -129,9 +136,12 @@ namespace DataAccessLayer
                     throw new ArgumentException("Search string cannot be null or empty.");
                 }
 
-                string apiUrl = $"https://api.coincap.io/v2/assets";
+                if (_apiUrl == null)
+                {
+                    throw new ("_apiUrl is null");
+                }
 
-                List<Coin> coins = await GetListOfAllCoinsAsync(apiUrl);
+                List<Coin> coins = await GetListOfAllCoinsAsync(_apiUrl);
 
                 if (coins == null || coins.Count == 0)
                 {
