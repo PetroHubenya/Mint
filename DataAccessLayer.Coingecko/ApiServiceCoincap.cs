@@ -236,6 +236,10 @@ namespace DataAccessLayer
             {
                 throw;
             }
+
+            //----------------------------------------------------------------
+            // Get coin history by id and interval
+
         }
     }
 }
