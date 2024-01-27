@@ -239,7 +239,10 @@ namespace DataAccessLayer
 
             //----------------------------------------------------------------
             // Get coin history by id and interval
-
+            public async Task<List<CoinHistory>> GetCoinHistoryByIdAndIntervalAsync(string id, string interval)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class CoincapHistoryData
+    public class CoincHistory
     {
         public double? PriceUsd { get; set; }
         public long Time { get; set; }
