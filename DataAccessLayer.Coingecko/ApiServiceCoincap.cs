@@ -61,8 +61,7 @@ namespace DataAccessLayer
                 {
                     throw new Exception("CoincapApiResponse.Data is null.");
                 }
-
-                // Mapper should be moved to the Business Logic Layer.
+                
                 CoincapDataToCoinMapper coinMapper = new CoincapDataToCoinMapper();
                 Coin coin = coinMapper.MapCoincapToCoin(coincapData);
 
@@ -241,10 +240,83 @@ namespace DataAccessLayer
         // Get coin history by id and interval.
 
         public async Task<List<CoinHistory>> GetCoinHistoryByIdAndIntervalAsync(string id, string interval)
-        {
-            throw new NotImplementedException();
+        {   
+            try
+            {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    throw new ArgumentException("Id cannot be null or empty.");
+                }
 
+                if (!Enum.IsDefined(typeof(Interval), interval.ToLower()))
+                {
+                    throw new ArgumentException("Invalid interval received.");
+                }
 
+                string apiUrl = _apiUrl + "/" + id + "/history?interval=" + interval;
+
+                HttpResponseMessage response;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    response = await client.GetAsync(apiUrl);
+                }
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        throw new Exception($"History data with ID '{id}' and interval '{interval}' not found.");
+                    }
+
+                    throw new HttpRequestException($"Failed to retrieve history data. Status code: {response.StatusCode}, Reason: {response.ReasonPhrase}");
+                }
+
+                string jsonString = await response.Content.ReadAsStringAsync();
+
+                if (string.IsNullOrEmpty(jsonString))
+                {
+                    throw new Exception("Empty or null JSON string.");
+                }
+
+                CoincapHistoryListApiResponce? coincapHistoryListApiResponce = JsonConvert.DeserializeObject<CoincapHistoryListApiResponce>(jsonString);
+
+                if (coincapHistoryListApiResponce == null)
+                {
+                    throw new Exception("Error deserializing JSON while fetching a history by ID and interval.");
+                }
+
+                List<CoincapHistoryData>? coincapHistoryData = coincapHistoryListApiResponce.Data;
+
+                if (coincapHistoryData == null)
+                {
+                    throw new Exception("coincapHistoryListApiResponce.Data is null.");
+                }
+
+                CoincapHistoryToCoinHistoryMapper coincapHistoryToCoinHistoryMapper = new();
+
+                List<CoinHistory>? coinHistoryData = coincapHistoryToCoinHistoryMapper.MapCoincapHistoryListToCoinHistoryList(coincapHistoryData);
+
+                if (coinHistoryData == null)
+                {
+                    throw new Exception("Failed to Map CoincapHistoryData to CoinHistory.");
+                }
+
+                return coinHistoryData;
+
+            }
+            catch (HttpRequestException)
+            {
+                throw;
+            }
+            catch (JsonException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
