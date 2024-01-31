@@ -13,5 +13,6 @@ namespace Interfaces.DataAccessLayer
         Task<List<Coin>> GetListOfAllCoinsAsync(string apiUrl);
         Task<List<Coin>> GetTopNCoinsAsync(int limit);
         Task<List<Coin>> SearchCoinsByNameOrSymbolAsync(string searchString);
+        Task<List<CoinHistory>> GetCoinHistoryByIdAndIntervalAsync(string id, string interval);
     }
 }

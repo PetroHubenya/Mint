@@ -12,5 +12,6 @@ namespace Interfaces.BusinessLogicLayer
         Task<Coin> GetCoinByIdAsync(string id);
         Task<List<Coin>> GetTopNCoinsAsync(int limit);
         Task<List<Coin>> SearchCoinByNameOrSymbolAsync(string searchString);
+        Task<List<CoinHistory>> GetCoinHistoryByIdAndIntervalAsync(string id, string interval);
     }
 }

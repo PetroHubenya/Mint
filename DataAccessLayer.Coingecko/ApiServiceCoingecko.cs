@@ -12,6 +12,11 @@ namespace DataAccessLayer
             throw new NotImplementedException();
         }
 
+        public Task<List<CoinHistory>> GetCoinHistoryByIdAndIntervalAsync(string id, string interval)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<List<Coin>> GetListOfAllCoinsAsync(string apiUrl)
         {
             throw new NotImplementedException();

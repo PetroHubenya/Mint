@@ -84,5 +84,29 @@ namespace Mint.BLL
                 throw;
             }
         }
+
+        // Get coin history by id and interval.
+        public async Task<List<CoinHistory>> GetCoinHistoryByIdAndIntervalAsync(string id, string interval)
+        {
+            try
+            {
+                List<CoinHistory> coinHistories = await _apiService.GetCoinHistoryByIdAndIntervalAsync(id, interval);
+
+                if (coinHistories == null || coinHistories.Count == 0)
+                {
+                    throw new Exception($"No coinHistories found for the DI '{id}' and Interval '{interval}'.");
+                }
+
+                return coinHistories;
+            }
+            catch (ArgumentException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

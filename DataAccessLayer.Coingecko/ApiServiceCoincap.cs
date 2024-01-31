@@ -245,7 +245,7 @@ namespace DataAccessLayer
             {
                 if (string.IsNullOrWhiteSpace(id))
                 {
-                    throw new ArgumentException("Id cannot be null or empty.");
+                    throw new ArgumentException("The ID cannot be null or empty.");
                 }
 
                 if (!Enum.IsDefined(typeof(Interval), interval.ToLower()))
