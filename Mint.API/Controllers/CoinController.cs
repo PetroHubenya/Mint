@@ -92,5 +92,40 @@ namespace Mint.API.Controllers
                 return StatusCode(500, "An unexpected error occurred.");
             }            
         }
+
+        // Get coin history by id and interval.
+        [HttpGet("id={id}/history_interval={interval}")]
+        public async Task<IActionResult> GetCoinHistoryByIdAndIntervalAsync(string id, string interval)
+        {
+            try
+            {
+                List<CoinHistory> result = await _coinService.GetCoinHistoryByIdAndIntervalAsync(id, interval);
+
+                if (result.Count == 0)
+                {
+                    return NoContent();
+                }
+
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    throw new ArgumentException("The ID cannot be null or empty.");
+                }
+
+                if (!Enum.IsDefined(typeof(Interval), interval.ToLower()))
+                {
+                    throw new ArgumentException("Invalid interval received. List of valid intervals: m1, m5, m15, m30, h1, h2, h6, h12, d1");
+                }
+
+                return Ok(result);
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest("Invalid search string.");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
     }
 }
