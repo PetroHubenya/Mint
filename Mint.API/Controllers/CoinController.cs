@@ -99,13 +99,6 @@ namespace Mint.API.Controllers
         {
             try
             {
-                List<CoinHistory> result = await _coinService.GetCoinHistoryByIdAndIntervalAsync(id, interval);
-
-                if (result.Count == 0)
-                {
-                    return NoContent();
-                }
-
                 if (string.IsNullOrWhiteSpace(id))
                 {
                     throw new ArgumentException("The ID cannot be null or empty.");
@@ -116,11 +109,18 @@ namespace Mint.API.Controllers
                     throw new ArgumentException("Invalid interval received. List of valid intervals: m1, m5, m15, m30, h1, h2, h6, h12, d1");
                 }
 
+                List<CoinHistory> result = await _coinService.GetCoinHistoryByIdAndIntervalAsync(id, interval);
+
+                if (result.Count == 0)
+                {
+                    return NoContent();
+                }                
+
                 return Ok(result);
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
-                return BadRequest("Invalid search string.");
+                return BadRequest($"Invalid parameter: {ex.Message}");
             }
             catch (Exception)
             {
