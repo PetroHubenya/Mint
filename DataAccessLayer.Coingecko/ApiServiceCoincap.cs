@@ -87,7 +87,6 @@ namespace DataAccessLayer
         }
 
         //----------------------------------------------------------------
-
         // Get top n coins: https://api.coincap.io/v2/assets?limit={limit}
         public async Task<List<Coin>> GetTopNCoinsAsync(int limit)
         {
@@ -124,7 +123,6 @@ namespace DataAccessLayer
         }
 
         //----------------------------------------------------------------
-
         // Search coins by name or symbol: https://api.coincap.io/v2/assets
         public async Task<List<Coin>> SearchCoinsByNameOrSymbolAsync(string searchString)
         {
@@ -169,7 +167,6 @@ namespace DataAccessLayer
         }
 
         //----------------------------------------------------------------
-
         // Get list of all coins.
         public async Task<List<Coin>> GetListOfAllCoinsAsync(string apiUrl)
         {
@@ -236,6 +233,7 @@ namespace DataAccessLayer
                 throw;
             }
         }
+
         //----------------------------------------------------------------
         // Get coin history by id and interval.
 
