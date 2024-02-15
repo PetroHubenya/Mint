@@ -1,5 +1,6 @@
 ﻿using Interfaces.BusinessLogicLayer;
 using Interfaces.DataAccessLayer;
+using Microsoft.Extensions.Caching.Memory;
 using Models;
 
 namespace Mint.BLL
@@ -8,9 +9,12 @@ namespace Mint.BLL
     {
         private readonly IApiService _apiService;
 
-        public IdValidationService(IApiService apiService)
+        private readonly IMemoryCache _memoryCache;
+
+        public IdValidationService(IApiService apiService, IMemoryCache memoryCache)
         {
             _apiService = apiService;
+            _memoryCache = memoryCache;
         }
 
         // Get list of all coin Ids.
@@ -43,9 +47,20 @@ namespace Mint.BLL
             }
         }
 
-        // Save Ids to cache.
+        // Get Ids from cache. If it is empty, then get Ids from the Api and save them to cache.
+        public async Task<List<string>> GetAllIdsCacheAsync()
+        {
+            List<string>? output = _memoryCache.Get<List<string>>(key: "ids");
 
+            if (output == null)
+            {
+                output = await GetAllIdsAsync();
 
+                _memoryCache.Set(key: "ids", output, TimeSpan.FromMinutes(value: 1));
+            }
+
+            return output;
+        }
 
         // Verify if the received ID is in the dictionary.
 
