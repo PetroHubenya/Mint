@@ -61,7 +61,7 @@ namespace DataAccessLayer
                 {
                     throw new Exception("CoincapApiResponse.Data is null.");
                 }
-                
+
                 CoincapDataToCoinMapper coinMapper = new CoincapDataToCoinMapper();
                 Coin coin = coinMapper.MapCoincapToCoin(coincapData);
 
@@ -99,7 +99,7 @@ namespace DataAccessLayer
 
                 string apiUrl = _apiUrl + "?limit=" + limit;
 
-                List<Coin> coins = await GetListOfAllCoinsAsync(apiUrl);
+                List<Coin> coins = await GetListOfAllCoinsAsync();
 
                 if (coins == null || coins.Count == 0)
                 {
@@ -135,10 +135,10 @@ namespace DataAccessLayer
 
                 if (_apiUrl == null)
                 {
-                    throw new ("_apiUrl is null");
+                    throw new("_apiUrl is null");
                 }
 
-                List<Coin> coins = await GetListOfAllCoinsAsync(_apiUrl);
+                List<Coin> coins = await GetListOfAllCoinsAsync();
 
                 if (coins == null || coins.Count == 0)
                 {
@@ -168,10 +168,12 @@ namespace DataAccessLayer
 
         //----------------------------------------------------------------
         // Get list of all coins.
-        public async Task<List<Coin>> GetListOfAllCoinsAsync(string apiUrl)
+        public async Task<List<Coin>> GetListOfAllCoinsAsync()
         {
             try
-            {   
+            {
+                string? apiUrl = _apiUrl;
+
                 if (string.IsNullOrWhiteSpace(apiUrl))
                 {
                     throw new ArgumentException("API URL cannot be null or empty.");
@@ -200,7 +202,7 @@ namespace DataAccessLayer
                 {
                     throw new Exception("Empty or null JSON string.");
                 }
-                
+
                 CoincapListApiResponse coincapListApiResponse = JsonConvert.DeserializeObject<CoincapListApiResponse>(jsonString)
                     ?? throw new Exception("Failed to deserialize JSON string to CoincapListApiResponse.");
 
@@ -208,7 +210,7 @@ namespace DataAccessLayer
                 {
                     throw new Exception("Missing 'data' property in CoincapListApiResponse.");
                 }
-                
+
                 CoincapDataToCoinMapper coinMapper = new CoincapDataToCoinMapper();
 
                 List<Coin> coins = coinMapper.MapCoincapListToCoinList(coincapListApiResponse.Data)
@@ -238,7 +240,7 @@ namespace DataAccessLayer
         // Get coin history by id and interval.
 
         public async Task<List<CoinHistory>> GetCoinHistoryByIdAndIntervalAsync(string id, string interval)
-        {   
+        {
             try
             {
                 if (string.IsNullOrWhiteSpace(id))
