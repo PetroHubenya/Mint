@@ -16,9 +16,11 @@ builder.Services.AddSwaggerGen();
 
 // Add services
 builder.Services.AddScoped<ICoinService, CoinService>();
+builder.Services.AddScoped<IIdValidationService, IdValidationService>();
 string? apiUrl = builder.Configuration.GetValue<string>("ApiUrlSetting:ApiUrlCoincap");
 builder.Services.AddScoped<IApiService>(provider => new ApiServiceCoincap(apiUrl));
 builder.Services.AddSingleton<CoincapDataToCoinMapper>();
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 

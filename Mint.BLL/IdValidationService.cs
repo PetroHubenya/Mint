@@ -1,14 +1,10 @@
-﻿using Interfaces.DataAccessLayer;
+﻿using Interfaces.BusinessLogicLayer;
+using Interfaces.DataAccessLayer;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mint.BLL
 {
-    public class IdValidationService
+    public class IdValidationService : IIdValidationService
     {
         private readonly IApiService _apiService;
 
@@ -27,7 +23,7 @@ namespace Mint.BLL
                 if (coins == null || coins.Count == 0)
                 {
                     throw new Exception("No coins found.");
-                }                
+                }
 
                 List<string> ids = new();
 
@@ -36,17 +32,21 @@ namespace Mint.BLL
                     if (!string.IsNullOrEmpty(coin.Id))
                     {
                         ids.Add(coin.Id);
-                    }                    
+                    }
                 }
 
                 return ids;
-            }            
+            }
             catch (Exception)
             {
                 throw;
             }
         }
-        
+
+        // Save Ids to cache.
+
+
+
         // Verify if the received ID is in the dictionary.
 
 
