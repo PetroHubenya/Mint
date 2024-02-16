@@ -64,6 +64,15 @@ namespace Mint.BLL
 
         // Verify if the received ID is in the dictionary.
 
+        public async Task<bool> VerifyId(string id)
+        {
+            List<string> ids = await GetAllIdsCacheAsync();
 
+            if (ids.Contains(id))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
