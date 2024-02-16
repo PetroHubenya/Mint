@@ -63,16 +63,27 @@ namespace Mint.BLL
         }
 
         // Verify if the received ID is in the dictionary.
-
         public async Task<bool> VerifyId(string id)
         {
-            List<string> ids = await GetAllIdsCacheAsync();
-
-            if (ids.Contains(id))
+            try
             {
-                return true;
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new ArgumentException("Id cannot be null or empty.", nameof(id));
+                }
+
+                List<string> ids = await GetAllIdsCacheAsync();
+
+                return ids.Contains(id);
             }
-            return false;
+            catch (ArgumentException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while verifying the ID.", ex);
+            }
         }
     }
 }
