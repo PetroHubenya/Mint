@@ -63,7 +63,7 @@ namespace Mint.BLL
         }
 
         // Verify if the received ID is in the dictionary.
-        public async Task<bool> VerifyId(string id)
+        public async Task<bool> VerifyIdAsync(string id)
         {
             try
             {

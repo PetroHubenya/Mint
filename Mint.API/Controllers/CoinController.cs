@@ -1,9 +1,6 @@
 ﻿using Interfaces.BusinessLogicLayer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models;
-using System.Collections.Generic;
 
 namespace Mint.API.Controllers
 {
@@ -13,9 +10,12 @@ namespace Mint.API.Controllers
     {
         private readonly ICoinService _coinService;
 
-        public CoinController(ICoinService coinService)
+        private readonly IIdValidationService _idValidationService;
+
+        public CoinController(ICoinService coinService, IIdValidationService idValidationService)
         {
-            _coinService = coinService;            
+            _coinService = coinService;
+            _idValidationService = idValidationService;
         }
 
         // Get top n coins.
@@ -49,23 +49,30 @@ namespace Mint.API.Controllers
         {
             try
             {
+                bool idVerified = await _idValidationService.VerifyIdAsync(id);
+
+                if (!idVerified)
+                {
+                    return BadRequest($"Invalid coin Id: {id}");
+                }
+
                 Coin coin = await _coinService.GetCoinByIdAsync(id);
 
                 if (coin == null)
                 {
-                    return NotFound($"Coin with Id '{id}' not found.");
+                    return NotFound($"Coin not found for Id: {id}");
                 }
 
                 return Ok(coin);
             }
-            catch (ArgumentException)
-            {   
-                return BadRequest("Invalid coin Id.");
-            }
-            catch (Exception)
+            catch (ArgumentException ex)
             {
-                return StatusCode(500, "An unexpected error occurred.");
+                return BadRequest($"Invalid argument: {ex.ParamName}");
             }            
+            catch (Exception)
+            {   
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         // Search coins by name or symbol
